@@ -12,8 +12,7 @@ public class Main {
 
         // Register our bot
         try {
-//            botsApi.registerBot(new MyAmazingBot());
-            botsApi.registerBot(new Bot());
+            botsApi.registerBot(new TelegramProvider(new Bot()));
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
