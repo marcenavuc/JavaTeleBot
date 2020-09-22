@@ -3,10 +3,9 @@ import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
-
 public class TelegramProvider extends TelegramLongPollingBot {
-    private static final String BotName = "Glinomes";
-    private static final String Token = "1179069441:AAGjBmqZvasfIAKWrTcPeq4Igw1Kq41_qEQ";
+    private static final String BotName = "QQuestionBot";
+    private static final String Token = "1292220516:AAEwoFfrkYfm9sI2TY0HeTYCfV40NHwSALg";
     private final Bot bot;
 
     public TelegramProvider(Bot newBot) {

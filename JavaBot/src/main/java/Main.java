@@ -6,21 +6,24 @@ public class Main {
 
     public static void main(String[] args) {
 
-//        // Initialize Api Context
-//        ApiContextInitializer.init();
-//
-//        // Instantiate Telegram Bots API
-//        TelegramBotsApi botsApi = new TelegramBotsApi();
-//
-//        // Register our bot on Telegram
-//        try {
-//            botsApi.registerBot(new TelegramProvider(new Bot()));
-//        } catch (TelegramApiException e) {
-//            e.printStackTrace();
-//        }
+        Bot bot = new Bot();
+
+        // Initialize Telegram Provider
+        // Initialize Api Context
+        ApiContextInitializer.init();
+
+        // Instantiate Telegram Bots API
+        TelegramBotsApi botsApi = new TelegramBotsApi();
+
+        // Register our bot on Telegram
+        try {
+            botsApi.registerBot(new TelegramProvider(bot));
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
 
         // Making CLI provider
-        CLIProvider cli = new CLIProvider(new Bot());
+        CLIProvider cli = new CLIProvider(bot);
         try {
             cli.onUpdateReceived();
         } catch (Exception e) {

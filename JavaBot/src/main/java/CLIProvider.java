@@ -7,7 +7,9 @@ public class CLIProvider {
     public CLIProvider(Bot newBot) {
         scanner = new Scanner(System.in);
         bot = newBot;
-        System.out.println("Start listen");
+
+        // Start Messaging
+        System.out.println(getAnswer("/start"));
     }
 
     public void onUpdateReceived() {

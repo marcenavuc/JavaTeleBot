@@ -5,9 +5,8 @@ public class Bot {
     private final String ifNotFound = "Я ничего не понял(((";
 
     public Bot() {
-        miniDb.put("/start", "Привет, меня зовут Глиномес!");
-        miniDb.put("/help", "К сожалению, я ничего не умеб((((");
-        miniDb.put("Дурак", "Сам дурка");
+        miniDb.put("/start", "Привет, меня зовут QQuestionBot!");
+        miniDb.put("/help", "К сожалению, я пока что ничего не умеб((((");
     }
 
     public String takeAnswer(String question) {
