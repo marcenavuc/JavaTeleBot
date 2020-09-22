@@ -23,8 +23,11 @@ public class Main {
         }
 
         // Making CLI provider
+        CLIApi cliApi = new CLIApi();
+
         CLIProvider cli = new CLIProvider(bot);
         try {
+//            cliApi.registerBot(cli);
             cli.onUpdateReceived();
         } catch (Exception e) {
             e.printStackTrace();

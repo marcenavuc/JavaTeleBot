@@ -1,16 +1,21 @@
 import java.util.HashMap;
 
 public class Bot {
-    private final HashMap<String, String> miniDb = new HashMap<String, String>();
+    private final HashMap<String, Command> miniDb = new HashMap<String, Command>();
     private final String ifNotFound = "Я ничего не понял(((";
 
     public Bot() {
-        miniDb.put("/start", "Привет, меня зовут QQuestionBot!");
-        miniDb.put("/help", "К сожалению, я пока что ничего не умеб((((");
+        miniDb.put("/start", new Start());
+        miniDb.put("/help", new Help());
+        miniDb.put("/weather", new Weather());
+        miniDb.put("/subscribe", new Subscribe());
+        miniDb.put("/unsubscribe", new Unsubscribe());
     }
 
     public String takeAnswer(String question) {
-        String answer = miniDb.get(question);
-        return answer == null ? ifNotFound : answer;
+//        String answer = miniDb.get(question).execute(question);
+        Command handler = miniDb.get(question);
+        return handler != null ? handler.execute(question) : ifNotFound;
+//        return answer == null ? ifNotFound : answer;
     }
 }
