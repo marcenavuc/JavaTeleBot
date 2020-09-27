@@ -3,6 +3,7 @@ import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
+
 public class TelegramProvider extends TelegramLongPollingBot {
     private static final String BotName = "QQuestionBot";
     private static final String Token = "1292220516:AAEwoFfrkYfm9sI2TY0HeTYCfV40NHwSALg";
@@ -31,6 +32,7 @@ public class TelegramProvider extends TelegramLongPollingBot {
             }
         }
     }
+
 
     @Override
     public String getBotUsername() {
