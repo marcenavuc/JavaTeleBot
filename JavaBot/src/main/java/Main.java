@@ -1,3 +1,7 @@
+import Bot.Bot;
+import CLI.CLIApi;
+import CLI.CLIProvider;
+import Telegram.TelegramProvider;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
@@ -27,8 +31,8 @@ public class Main {
 
         CLIProvider cli = new CLIProvider(bot);
         try {
-//            cliApi.registerBot(cli);
-            cli.onUpdateReceived();
+            cliApi.registerBot(cli);
+//            cli.onUpdateReceived();
         } catch (Exception e) {
             e.printStackTrace();
         }

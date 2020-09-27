@@ -1,3 +1,6 @@
+package Telegram;
+import Bot.Bot;
+import CLI.CLIUpdate;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -17,10 +20,9 @@ public class TelegramProvider extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
 
         if (update.hasMessage() && update.getMessage().hasText()) {
-            String message_text = update.getMessage().getText();
             long chat_id = update.getMessage().getChatId();
 
-            String answer = getAnswer(message_text);
+            String answer = getAnswer(update);
 
             SendMessage message = new SendMessage().setChatId(chat_id).setText(answer);
             try {
@@ -42,7 +44,7 @@ public class TelegramProvider extends TelegramLongPollingBot {
         return Token;
     }
 
-    public String getAnswer(String question) {
-        return bot.takeAnswer(question);
+    public String getAnswer(Update update) {
+        return bot.takeAnswer(new CLIUpdate(update));
     }
 }
