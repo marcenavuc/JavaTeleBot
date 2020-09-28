@@ -1,11 +1,12 @@
 package Bot.Commands;
 
+import Bot.UserManager;
 import CLI.CLIUpdate;
 
 public class Help extends Command {
 
     @Override
-    public String execute(CLIUpdate update) {
+    public String execute(CLIUpdate update, UserManager manager) {
         String answer = "Я бот QQuestionBot. Я умею давать прогноз погоды в твоем регионе\n";
         answer += "Для того, чтобы узнать прогноз погоды просто напиши название своего города\n";
         answer += "Или же отправь свою геолокацию\n";

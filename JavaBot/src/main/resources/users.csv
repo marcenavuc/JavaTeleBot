@@ -1,2 +1,3 @@
-Name, Location
-mark, Yekaterinburg
+Id,Name,Location,Subscribed
+0,mark,Yekaterinburg,false
+3344077,mark,null,true
