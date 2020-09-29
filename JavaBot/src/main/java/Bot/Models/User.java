@@ -18,7 +18,7 @@ public class User implements Serializable {
     public User(String[] dataFromCsv) {
         this.userId = Integer.parseInt(dataFromCsv[0]);
         this.name = dataFromCsv[1];
-        this.location = dataFromCsv[2];
+        this.location = !dataFromCsv[2].equals("null") ? dataFromCsv[2] : null;
         this.isSubscribed = Boolean.parseBoolean(dataFromCsv[3]);
     }
 
