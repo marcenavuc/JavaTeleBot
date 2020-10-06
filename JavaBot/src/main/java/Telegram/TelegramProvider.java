@@ -1,6 +1,6 @@
 package Telegram;
 import Bot.Bot;
-import CLI.CLIUpdate;
+import CLI.Message;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -45,6 +45,6 @@ public class TelegramProvider extends TelegramLongPollingBot {
     }
 
     public String getAnswer(Update update) {
-        return bot.takeAnswer(new CLIUpdate(update));
+        return bot.takeAnswer(new Message(update));
     }
 }

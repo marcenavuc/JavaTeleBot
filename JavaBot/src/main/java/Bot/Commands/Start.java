@@ -1,14 +1,14 @@
 package Bot.Commands;
 
-import Bot.UserManager;
-import CLI.CLIUpdate;
+import Bot.Repository;
+import CLI.Message;
 
 public class Start extends Command {
 
     @Override
-    public String execute(CLIUpdate update, UserManager manager) {
+    public String execute(Message message, Repository manager) {
         String answer = "Привет, меня зовут бот QQuestionBot\n";
-        return answer + new Help().execute(update, manager);
+        return answer + new Help().execute(message, manager);
     }
 }
 

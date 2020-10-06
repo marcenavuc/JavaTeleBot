@@ -1,7 +1,5 @@
 package CLI;
 
-import CLI.CLIUpdate;
-
 import java.util.Scanner;
 
 public class CLIApi {
@@ -13,13 +11,13 @@ public class CLIApi {
 
     public void registerBot(CLIProvider cli) {
         while (true) {
-            CLIUpdate update = getMessage();
-            cli.onUpdateReceived(update);
+            Message message = getMessage();
+            cli.onUpdateReceived(message);
         }
     }
 
-    private CLIUpdate getMessage() {
+    private Message getMessage() {
         String message_text = scanner.nextLine();
-        return new CLIUpdate(message_text);
+        return new Message(message_text);
     }
 }

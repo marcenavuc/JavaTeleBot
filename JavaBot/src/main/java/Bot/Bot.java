@@ -1,13 +1,16 @@
 package Bot;
 
 import Bot.Commands.*;
-import CLI.CLIUpdate;
+import CLI.Message;
+
+import java.io.IOException;
 import java.util.HashMap;
 
 public class Bot {
     private final HashMap<String, Command> commands = new HashMap<String, Command>();
     private final String ifNotFound = "Я ничего не понял(((";
-    public UserManager userManager = new UserManager();
+    private final String ErrorMessage = "AAAAA, я сломался!!!! ЧТо ты наделал?";
+    public Repository userManager = new Repository();
 
 
     public Bot() {
@@ -18,8 +21,13 @@ public class Bot {
         commands.put("/unsubscribe", new Unsubscribe());
     }
 
-    public String takeAnswer(CLIUpdate update) {
-        Command handler = commands.get(update.text);
-        return handler != null ? handler.execute(update, userManager) : ifNotFound;
+    public String takeAnswer(Message message) {
+        Command handler = commands.get(message.text);
+        try {
+            return handler != null ? handler.execute(message, userManager) : ifNotFound;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ErrorMessage;
+        }
     }
 }

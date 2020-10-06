@@ -8,16 +8,15 @@ public class CLIProvider {
 
     public CLIProvider(Bot newBot) {
         bot = newBot;
-        onUpdateReceived(new CLIUpdate("/start"));
+        onUpdateReceived(new Message("/start"));
     }
 
-    public void onUpdateReceived(CLIUpdate update) {
-        String answer = getAnswer(update);
-        // Как-тo отправить ответ
+    public void onUpdateReceived(Message message) {
+        String answer = getAnswer(message);
         System.out.println(answer);
     }
 
-    public String getAnswer(CLIUpdate update) {
+    public String getAnswer(Message update) {
         return bot.takeAnswer(update);
     }
 

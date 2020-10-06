@@ -1,14 +1,15 @@
 package Bot.Commands;
 
-import Bot.UserManager;
-import CLI.CLIUpdate;
+import Bot.Repository;
+import CLI.Message;
+
+import java.io.IOException;
 
 public abstract class Command implements ICommand {
     public String name;
 
-    //TO DO: Добавить парсер
     @Override
-    public String execute(CLIUpdate update, UserManager manager) {
+    public String execute(Message message, Repository manager) throws IOException {
         return null;
     }
 }

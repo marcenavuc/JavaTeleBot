@@ -1,12 +1,12 @@
 package Bot.Commands;
 
-import Bot.UserManager;
-import CLI.CLIUpdate;
+import Bot.Repository;
+import CLI.Message;
 
 public class Weather extends Command {
 
     @Override
-    public String execute(CLIUpdate update, UserManager manager) {
+    public String execute(Message message, Repository manager) {
         return "Здесь будет функционал вывода погоды";
     }
 }
