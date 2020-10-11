@@ -25,33 +25,31 @@ public class Weather extends Command {
     private String units = "metric";
     private String lang = "en";
     private String apiKey = "99e220dcfc77677fd0106e55fbb088fe";
-    private HttpClient client;
 
     @Override
     public String execute(Message message, Repository manager) {
         User user = manager.getUser(message.userId);
         int today = 1;
-
-        try {
-            JSONObject json = fetchForecast(user.location, today);
-            String temperature = json.getJSONObject("main").get("temp").toString();
-            return "Погода в " + user.location + " : " + temperature;
-        } catch (IOException e) {
-//            e.printStackTrace();
-            return "ой, что-то пошло не так! Попробуйте в другой раз";
+        if (user.location != null) {
+            try {
+                JSONObject json = fetchForecast(user.location, today);
+                String temperature = json.getJSONObject("main").get("temp").toString();
+                return "Погода в " + user.location + " : " + temperature;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "Ой, что-то пошло не так! Попробуйте в другой раз";
+            }
+        } else {
+            return "Мы не знаем где вы живете";
         }
     }
 
-    private String getResponse(String url) throws IOException {
+    private JSONObject getResponse(String url) throws IOException {
         URL urlObject = new URL(url);
 
         HttpURLConnection connection = (HttpURLConnection) urlObject.openConnection();
 
         connection.setRequestMethod("GET");
-
-        if (connection.getResponseCode() == 404) {
-            throw new IllegalArgumentException();
-        }
 
         BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         String inputLine;
@@ -61,24 +59,22 @@ public class Weather extends Command {
         }
         in.close();
 
-        return response.toString();
+        return new JSONObject(response.toString());
     }
 
     private JSONObject fetch(String location, int nbDay) throws ClientProtocolException, IOException, JSONException {
         String apiUrl = apiForecast + URLEncoder.encode(location, "utf-8") + "&appid=" + apiKey + "&mode=json&units=" + units + "&lang=" + lang + "&cnt=" + nbDay;
         System.out.println(apiUrl);
-        String response = getResponse(apiUrl);
-        JSONObject json = new JSONObject(response);
+        JSONObject json = getResponse(apiUrl);
         return json;
     }
 
     public JSONObject fetchForecast(String location, int dayIndex) throws ClientProtocolException, IOException, JSONException {
-        String[] result = new String[11];
-        JSONObject json = new JSONObject();
-        String localUnits = "celsius";
         JSONObject jsonObj = null;
         try {
             jsonObj = fetch(location, (dayIndex));
+            if (!jsonObj.get("message").toString().equals("0"))
+                throw new JSONException("Ой, что-то пошло не так " + jsonObj.get("message"));
         } catch (JSONException e) {
             e.printStackTrace();
             return null;
@@ -93,24 +89,8 @@ public class Weather extends Command {
             return null;
         }
 
-            // Getting the required element from list by dayIndex
-        json = list.getJSONObject(dayIndex - 1);
-//            result[0] = item.getJSONArray("weather").getJSONObject(0).get("description").toString();
-//            JSONObject main = item.getJSONObject("main");
-//            result[1] = main.get("temp").toString();
-//            result[2] = location;
-//            result[3] = item.getJSONArray("weather").getJSONObject(0).get("id").toString();
-//            result[4] = main.get("pressure").toString();
-//            result[5] = main.get("humidity").toString();
-//            result[6] = main.get("temp_min").toString();
-//            result[7] = main.get("temp_max").toString();
-//            JSONObject wind = item.getJSONObject("wind");
-//            result[8] = wind.get("speed").toString();
-//            result[9] = wind.get("deg").toString();
-//            result[10] = localUnits;
-
-        return json;
+        // Getting the required element from list by dayIndex
+        return list.getJSONObject(dayIndex - 1);
     }
-
 
 }
