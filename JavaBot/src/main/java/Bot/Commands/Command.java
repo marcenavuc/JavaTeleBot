@@ -12,5 +12,10 @@ public abstract class Command implements ICommand {
     public String execute(Message message, Repository manager) throws IOException {
         return null;
     }
+
+    @Override
+    public Integer getState() {
+        return 0;
+    }
 }
 

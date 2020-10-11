@@ -27,7 +27,7 @@ public class Weather extends Command {
     private String apiKey = "99e220dcfc77677fd0106e55fbb088fe";
 
     @Override
-    public String execute(Message message, Repository manager) {
+    public String execute(Message message, Repository manager) throws IOException {
         User user = manager.getUser(message.userId);
         int today = 1;
         if (user.location != null) {
@@ -35,6 +35,10 @@ public class Weather extends Command {
                 JSONObject json = fetchForecast(user.location, today);
                 String temperature = json.getJSONObject("main").get("temp").toString();
                 return "Погода в " + user.location + " : " + temperature;
+            } catch (IllegalArgumentException e) {
+                user.state = 1;
+                manager.updateUser(user);
+                return "Вы вводили неправильный город\nНапиши свою локацию";
             } catch (Exception e) {
                 e.printStackTrace();
                 return "Ой, что-то пошло не так! Попробуйте в другой раз";
@@ -42,31 +46,6 @@ public class Weather extends Command {
         } else {
             return "Мы не знаем где вы живете";
         }
-    }
-
-    private JSONObject getResponse(String url) throws IOException {
-        URL urlObject = new URL(url);
-
-        HttpURLConnection connection = (HttpURLConnection) urlObject.openConnection();
-
-        connection.setRequestMethod("GET");
-
-        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        String inputLine;
-        StringBuilder response = new StringBuilder();
-        while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
-        }
-        in.close();
-
-        return new JSONObject(response.toString());
-    }
-
-    private JSONObject fetch(String location, int nbDay) throws ClientProtocolException, IOException, JSONException {
-        String apiUrl = apiForecast + URLEncoder.encode(location, "utf-8") + "&appid=" + apiKey + "&mode=json&units=" + units + "&lang=" + lang + "&cnt=" + nbDay;
-        System.out.println(apiUrl);
-        JSONObject json = getResponse(apiUrl);
-        return json;
     }
 
     public JSONObject fetchForecast(String location, int dayIndex) throws ClientProtocolException, IOException, JSONException {
@@ -91,6 +70,34 @@ public class Weather extends Command {
 
         // Getting the required element from list by dayIndex
         return list.getJSONObject(dayIndex - 1);
+    }
+
+    private JSONObject fetch(String location, int nbDay) throws ClientProtocolException, IOException, JSONException {
+        String apiUrl = apiForecast + URLEncoder.encode(location, "utf-8") + "&appid=" + apiKey + "&mode=json&units=" + units + "&lang=" + lang + "&cnt=" + nbDay;
+//        System.out.println(apiUrl);
+        JSONObject json = getResponse(apiUrl);
+        return json;
+    }
+
+    private JSONObject getResponse(String url) throws IOException {
+        URL urlObject = new URL(url);
+
+        HttpURLConnection connection = (HttpURLConnection) urlObject.openConnection();
+
+        connection.setRequestMethod("GET");
+
+        if (connection.getResponseCode() == 404)
+            throw new IllegalArgumentException();
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        String inputLine;
+        StringBuilder response = new StringBuilder();
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+
+        return new JSONObject(response.toString());
     }
 
 }

@@ -7,12 +7,14 @@ public class User implements Serializable {
     public String location;
     public Boolean isSubscribed;
     public int userId;
+    public int state;
 
     public User(int userId, String name, String location, Boolean isSubscribed) {
         this.userId = userId;
         this.name = name;
         this.location = location;
         this.isSubscribed = isSubscribed;
+        this.state = 0;
     }
 
     public User(String[] dataFromCsv) {
@@ -20,6 +22,7 @@ public class User implements Serializable {
         this.name = dataFromCsv[1];
         this.location = !dataFromCsv[2].equals("null") ? dataFromCsv[2] : null;
         this.isSubscribed = Boolean.parseBoolean(dataFromCsv[3]);
+        this.state = Integer.parseInt(dataFromCsv[4]);
     }
 
     @Override
@@ -27,6 +30,7 @@ public class User implements Serializable {
         return Integer.toString(userId)
                 + "," + name
                 + "," + location
-                + "," + Boolean.toString(isSubscribed);
+                + "," + Boolean.toString(isSubscribed)
+                + "," + Integer.toString(state);
     }
 }
