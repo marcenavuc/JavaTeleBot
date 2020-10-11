@@ -14,11 +14,6 @@ public class Subscribe extends Command {
         if (user != null && user.isSubscribed) {
             return user.name + ", Вы уже подписаны!";
         } else {
-            if (user == null) {
-                user = new User(message.userId, message.user, null, false);
-                manager.addUser(user);
-            }
-
             user.isSubscribed = true;
             manager.updateUser(user);
             return user.name + ", Спасибо! за подписку";

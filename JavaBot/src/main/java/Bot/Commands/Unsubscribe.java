@@ -14,11 +14,6 @@ public class Unsubscribe extends Command {
         if (user != null && !user.isSubscribed) {
             return user.name + ", Вы eще не подписаны!";
         } else {
-            if (user == null) {
-                user = new User(message.userId, message.user, null, false);
-                manager.addUser(user);
-            }
-
             user.isSubscribed = false;
             manager.updateUser(user);
             return user.name + ", Вы отписаны";

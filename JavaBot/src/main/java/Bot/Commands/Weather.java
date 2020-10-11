@@ -44,7 +44,9 @@ public class Weather extends Command {
                 return "Ой, что-то пошло не так! Попробуйте в другой раз";
             }
         } else {
-            return "Мы не знаем где вы живете";
+            user.state = 1;
+            manager.updateUser(user);
+            return "Мы не знаем где вы живете\nНапиши свою локацию";
         }
     }
 

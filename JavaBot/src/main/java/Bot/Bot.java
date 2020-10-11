@@ -30,6 +30,17 @@ public class Bot {
 
     public String takeAnswer(Message message) {
         User user = userManager.getUser(message.userId);
+
+        if (user == null) {
+            user = new User(message.userId, message.user, null, false);
+            try {
+                userManager.addUser(user);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return ErrorMessage;
+            }
+        }
+
         Command handler = user.state == 0
                 ? commands.get(message.text)
                 : stateCommands.get(user.state);
