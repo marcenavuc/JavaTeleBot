@@ -7,7 +7,7 @@ public class Start extends Command {
 
     @Override
     public String execute(Message message, UserRepository manager) {
-        String answer = "Привет, меня зовут бот QQuestionBot\n";
+        String answer = "Привет \uD83D\uDC4B, меня зовут JavaWeatherBot\n" ;
         return answer + new Help().execute(message, manager);
     }
 }

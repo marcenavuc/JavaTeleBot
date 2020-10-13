@@ -12,7 +12,7 @@ public class Unsubscribe extends Command {
     public String execute(Message message, UserRepository manager) throws IOException {
         User user = manager.getUser(message.userId);
         if (user != null && !user.isSubscribed) {
-            return user.name + ", Вы eще не подписаны!";
+            return user.name + ", Вы eщё не подписаны!";
         } else {
             user.isSubscribed = false;
             manager.updateUser(user);

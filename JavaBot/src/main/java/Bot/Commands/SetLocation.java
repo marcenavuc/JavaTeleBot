@@ -14,7 +14,7 @@ public class SetLocation extends Command{
         if (user.state == 0) {
             user.state = 1;
             manager.updateUser(user);
-            return "Напишите, свой город на английском или скиньте геолокацию";
+            return "Напишите Ваш город на английском или прикрепите геолокацию";
         }
 
         if (message.location == null)
@@ -25,6 +25,6 @@ public class SetLocation extends Command{
         }
         user.state = 0;
         manager.updateUser(user);
-        return user.name + ", Мы обновили вашу локацию";
+        return user.name + ", Мы обновили Вашу локацию";
     }
 }

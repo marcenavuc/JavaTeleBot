@@ -12,11 +12,11 @@ public class Subscribe extends Command {
     public String execute(Message message, UserRepository manager) throws IOException {
         User user = manager.getUser(message.userId);
         if (user != null && user.isSubscribed) {
-            return user.name + ", Вы уже подписаны!";
+            return user.name + ", Вы уже подписаны! \uD83D\uDE0F";
         } else {
             user.isSubscribed = true;
             manager.updateUser(user);
-            return user.name + ", Спасибо! за подписку";
+            return user.name + ", Спасибо за подписку! \uD83D\uDE0C";
         }
     }
 }

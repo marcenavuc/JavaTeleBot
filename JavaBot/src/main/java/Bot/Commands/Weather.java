@@ -41,7 +41,7 @@ public class Weather extends Command {
             } catch (IllegalArgumentException e) {
                 user.state = 1;
                 manager.updateUser(user);
-                return "Вы вводили неправильный город\nНапиши свою локацию";
+                return "Вы вводили некорректный город\nНапишите Вашу локацию";
             } catch (Exception e) {
                 e.printStackTrace();
                 return "Ой, что-то пошло не так! Попробуйте в другой раз";
@@ -50,7 +50,7 @@ public class Weather extends Command {
         else {
             user.state = 1;
             manager.updateUser(user);
-            return "Мы не знаем где вы живете\nНапиши свою локацию";
+            return "Мы не знаем, где Вы живёте\nНапишите Вашу локацию";
         }
     }
 
@@ -78,7 +78,7 @@ public class Weather extends Command {
         return list.getJSONObject(dayIndex - 1);
     }
 
-    public JSONObject fetchForecast(float lat, float lon, int dayIndex) throws ClientProtocolException, IOException, JSONException {
+    public JSONObject fetchForecast(float lat, float lon, int dayIndex) throws IOException, JSONException {
         JSONObject jsonObj = null;
         try {
             jsonObj = fetch(lat, lon, dayIndex);
