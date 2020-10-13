@@ -4,7 +4,6 @@ import Bot.Models.User;
 import Bot.Repository;
 import CLI.Message;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,7 +18,6 @@ import java.net.URLEncoder;
 
 public class Weather extends Command {
 
-    private static final long serialVersionUID = 1L;
     private String apiBase = "http://api.openweathermap.org/data/2.5/weather?q=";
     private String apiForecast = "http://api.openweathermap.org/data/2.5/forecast?q=";
     private String units = "metric";
@@ -34,7 +32,7 @@ public class Weather extends Command {
             try {
                 JSONObject json = fetchForecast(user.location, today);
                 String temperature = json.getJSONObject("main").get("temp").toString();
-                return "Погода в " + user.location + " : " + temperature;
+                return "Погода в " + user.location + " : " + temperature + "\u00B0C";
             } catch (IllegalArgumentException e) {
                 user.state = 1;
                 manager.updateUser(user);
@@ -53,7 +51,7 @@ public class Weather extends Command {
     public JSONObject fetchForecast(String location, int dayIndex) throws ClientProtocolException, IOException, JSONException {
         JSONObject jsonObj = null;
         try {
-            jsonObj = fetch(location, (dayIndex));
+            jsonObj = fetch(location, dayIndex);
             if (!jsonObj.get("message").toString().equals("0"))
                 throw new JSONException("Ой, что-то пошло не так " + jsonObj.get("message"));
         } catch (JSONException e) {
@@ -76,9 +74,7 @@ public class Weather extends Command {
 
     private JSONObject fetch(String location, int nbDay) throws ClientProtocolException, IOException, JSONException {
         String apiUrl = apiForecast + URLEncoder.encode(location, "utf-8") + "&appid=" + apiKey + "&mode=json&units=" + units + "&lang=" + lang + "&cnt=" + nbDay;
-//        System.out.println(apiUrl);
-        JSONObject json = getResponse(apiUrl);
-        return json;
+        return getResponse(apiUrl);
     }
 
     private JSONObject getResponse(String url) throws IOException {

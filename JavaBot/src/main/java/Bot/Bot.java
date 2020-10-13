@@ -31,6 +31,7 @@ public class Bot {
     public String takeAnswer(Message message) {
         User user = userManager.getUser(message.userId);
 
+        // Если к нам поступило сообщение от нового опльзователя
         if (user == null) {
             user = new User(message.userId, message.user, null, false);
             try {
