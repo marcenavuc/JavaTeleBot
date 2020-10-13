@@ -1,7 +1,7 @@
 package Bot.Commands;
 
 import Bot.Models.User;
-import Bot.Repository;
+import Bot.UserRepository;
 import CLI.Message;
 
 import java.io.IOException;
@@ -9,15 +9,20 @@ import java.io.IOException;
 public class SetLocation extends Command{
 
     @Override
-    public String execute(Message message, Repository manager) throws IOException {
+    public String execute(Message message, UserRepository manager) throws IOException {
         User user = manager.getUser(message.userId);
         if (user.state == 0) {
             user.state = 1;
             manager.updateUser(user);
-            return "Напиши, свою локацию";
+            return "Напишите, свой город на английском или скиньте геолокацию";
         }
 
-        user.location = message.text;
+        if (message.location == null)
+            user.location = message.text;
+        else {
+            user.lat = message.location.getLatitude();
+            user.lon = message.location.getLongitude();
+        }
         user.state = 0;
         manager.updateUser(user);
         return user.name + ", Мы обновили вашу локацию";

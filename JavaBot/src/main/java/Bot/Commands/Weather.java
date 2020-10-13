@@ -1,7 +1,7 @@
 package Bot.Commands;
 
 import Bot.Models.User;
-import Bot.Repository;
+import Bot.UserRepository;
 import CLI.Message;
 import org.apache.http.client.ClientProtocolException;
 import org.json.JSONArray;
@@ -18,21 +18,26 @@ import java.net.URLEncoder;
 
 public class Weather extends Command {
 
-    private String apiBase = "http://api.openweathermap.org/data/2.5/weather?q=";
-    private String apiForecast = "http://api.openweathermap.org/data/2.5/forecast?q=";
+//    private String apiBase = "http://api.openweathermap.org/data/2.5/weather?q=";
+//    private String apiLatLon = "http://api.openweathermap.org/data/2.5/onecall?";
+    private String apiForecast = "http://api.openweathermap.org/data/2.5/forecast?";
     private String units = "metric";
     private String lang = "en";
     private String apiKey = "99e220dcfc77677fd0106e55fbb088fe";
 
     @Override
-    public String execute(Message message, Repository manager) throws IOException {
+    public String execute(Message message, UserRepository manager) throws IOException {
         User user = manager.getUser(message.userId);
         int today = 1;
-        if (user.location != null) {
+        if (user.location != null || user.lat != 0.0f && user.lon != 0.0f) {
             try {
-                JSONObject json = fetchForecast(user.location, today);
+                JSONObject json = user.lat == 0.0f && user.lon == 0.0f
+                        ? fetchForecast(user.location, today)
+                        : fetchForecast(user.lat, user.lon, today);
+
                 String temperature = json.getJSONObject("main").get("temp").toString();
-                return "Погода в " + user.location + " : " + temperature + "\u00B0C";
+                String city = user.location;
+                return "Погода в " + city + " : " + temperature + "\u00B0C";
             } catch (IllegalArgumentException e) {
                 user.state = 1;
                 manager.updateUser(user);
@@ -41,7 +46,8 @@ public class Weather extends Command {
                 e.printStackTrace();
                 return "Ой, что-то пошло не так! Попробуйте в другой раз";
             }
-        } else {
+        }
+        else {
             user.state = 1;
             manager.updateUser(user);
             return "Мы не знаем где вы живете\nНапиши свою локацию";
@@ -72,8 +78,38 @@ public class Weather extends Command {
         return list.getJSONObject(dayIndex - 1);
     }
 
-    private JSONObject fetch(String location, int nbDay) throws ClientProtocolException, IOException, JSONException {
-        String apiUrl = apiForecast + URLEncoder.encode(location, "utf-8") + "&appid=" + apiKey + "&mode=json&units=" + units + "&lang=" + lang + "&cnt=" + nbDay;
+    public JSONObject fetchForecast(float lat, float lon, int dayIndex) throws ClientProtocolException, IOException, JSONException {
+        JSONObject jsonObj = null;
+        try {
+            jsonObj = fetch(lat, lon, dayIndex);
+            if (!jsonObj.get("message").toString().equals("0"))
+                throw new JSONException("Ой, что-то пошло не так " + jsonObj.get("message"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        // Getting the list node
+        JSONArray list;
+        try {
+            list = jsonObj.getJSONArray("list");
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        // Getting the required element from list by dayIndex
+        return list.getJSONObject(dayIndex - 1);
+    }
+
+    private JSONObject fetch(String location, int nbDay) throws IOException, JSONException {
+        String apiUrl = apiForecast + "q=" + URLEncoder.encode(location, "utf-8") + "&appid=" + apiKey + "&mode=json&units=" + units + "&lang=" + lang + "&cnt=" + nbDay;
+        return getResponse(apiUrl);
+    }
+
+    private JSONObject fetch(float lat, float lon, int nbDay) throws IOException, JSONException {
+        String apiUrl = apiForecast + "lat=" + Float.toString(lat) + "&lon=" + Float.toString(lon)+ "&appid=" + apiKey + "&mode=json&units=" + units + "&lang=" + lang + "&cnt=" + nbDay;
+        System.out.println(apiUrl);
         return getResponse(apiUrl);
     }
 

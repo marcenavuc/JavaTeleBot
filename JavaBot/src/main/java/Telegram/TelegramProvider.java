@@ -19,7 +19,7 @@ public class TelegramProvider extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
 
-        if (update.hasMessage() && update.getMessage().hasText()) {
+        if (update.hasMessage()) {
             long chat_id = update.getMessage().getChatId();
 
             String answer = getAnswer(update);

@@ -13,7 +13,7 @@ public class Bot {
     private final ArrayList<Command> stateCommands = new ArrayList<Command>();
     private final String ifNotFound = "Я ничего не понял(((";
     private final String ErrorMessage = "AAAAA, я сломался!!!! ЧТо ты наделал?";
-    public Repository userManager = new Repository();
+    public UserRepository userManager = new UserRepository();
 
 
     public Bot() {

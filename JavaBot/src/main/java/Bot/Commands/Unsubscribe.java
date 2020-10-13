@@ -1,7 +1,7 @@
 package Bot.Commands;
 
 import Bot.Models.User;
-import Bot.Repository;
+import Bot.UserRepository;
 import CLI.Message;
 
 import java.io.IOException;
@@ -9,7 +9,7 @@ import java.io.IOException;
 public class Unsubscribe extends Command {
 
     @Override
-    public String execute(Message message, Repository manager) throws IOException {
+    public String execute(Message message, UserRepository manager) throws IOException {
         User user = manager.getUser(message.userId);
         if (user != null && !user.isSubscribed) {
             return user.name + ", Вы eще не подписаны!";

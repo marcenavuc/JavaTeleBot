@@ -1,12 +1,12 @@
 package Bot.Commands;
 
-import Bot.Repository;
+import Bot.UserRepository;
 import CLI.Message;
 
 public class Help extends Command {
 
     @Override
-    public String execute(Message message, Repository manager) {
+    public String execute(Message message, UserRepository manager) {
         String answer = "Я бот JavaWeatherBot. Я умею давать прогноз погоды в твоем регионе\n";
         answer += "Для того, чтобы узнать прогноз погоды просто напиши название своего города\n";
         answer += "Или же отправь свою геолокацию\n";

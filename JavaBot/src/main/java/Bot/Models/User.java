@@ -8,6 +8,8 @@ public class User implements Serializable {
     public Boolean isSubscribed;
     public int userId;
     public int state;
+    public float lat;
+    public float lon;
 
     public User(int userId, String name, String location, Boolean isSubscribed) {
         this.userId = userId;
@@ -15,6 +17,8 @@ public class User implements Serializable {
         this.location = location;
         this.isSubscribed = isSubscribed;
         this.state = 0;
+        this.lat = 0;
+        this.lon = 0;
     }
 
     public User(String[] dataFromCsv) {
@@ -23,6 +27,8 @@ public class User implements Serializable {
         this.location = !dataFromCsv[2].equals("null") ? dataFromCsv[2] : null;
         this.isSubscribed = Boolean.parseBoolean(dataFromCsv[3]);
         this.state = Integer.parseInt(dataFromCsv[4]);
+        this.lat = Float.parseFloat(dataFromCsv[5]);
+        this.lon = Float.parseFloat(dataFromCsv[6]);
     }
 
     @Override
@@ -31,6 +37,8 @@ public class User implements Serializable {
                 + "," + name
                 + "," + location
                 + "," + Boolean.toString(isSubscribed)
-                + "," + Integer.toString(state);
+                + "," + Integer.toString(state)
+                + "," + Float.toString(lat)
+                + "," + Float.toString(lon);
     }
 }

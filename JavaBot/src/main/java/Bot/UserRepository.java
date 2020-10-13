@@ -8,12 +8,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 
-public class Repository {
+public class UserRepository {
     private final String pathToDB = "JavaBot/src/main/resources/users.csv";
-    private final String header = "Id,Name,Location,Subscribed,State";
+    private final String header = "Id,Name,Location,Subscribed,State,Lat,Lon";
     private HashMap<Integer, User> users;
 
-    public Repository() {
+    public UserRepository() {
         try {
             users = getUsers();
         }
