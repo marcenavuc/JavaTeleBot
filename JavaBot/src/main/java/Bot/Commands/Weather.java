@@ -1,12 +1,10 @@
 package Bot.Commands;
 
 import Bot.Models.User;
+import Bot.Models.WeatherApiJSON;
 import Bot.UserRepository;
 import CLI.Message;
-import org.apache.http.client.ClientProtocolException;
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 
 import java.io.BufferedReader;
@@ -31,13 +29,14 @@ public class Weather extends Command {
         int today = 1;
         if (user.location != null || user.lat != 0.0f && user.lon != 0.0f) {
             try {
-                JSONObject json = user.lat == 0.0f && user.lon == 0.0f
+                WeatherApiJSON json = user.lat == 0.0f && user.lon == 0.0f
                         ? fetchForecast(user.location, today)
                         : fetchForecast(user.lat, user.lon, today);
 
-                String temperature = json.getJSONObject("main").get("temp").toString();
-                String city = user.location;
-                return "Погода в " + city + " : " + temperature + "\u00B0C";
+                user.location = user.lat != 0.0f && user.lon != 0.0f ? json.city : user.location;
+                user.lat = 0.0f;
+                user.lon = 0.0f;
+                return "Погода в " + user.location + " : " + json.temperature + "\u00B0C";
             } catch (IllegalArgumentException e) {
                 user.state = 1;
                 manager.updateUser(user);
@@ -54,66 +53,44 @@ public class Weather extends Command {
         }
     }
 
-    public JSONObject fetchForecast(String location, int dayIndex) throws ClientProtocolException, IOException, JSONException {
-        JSONObject jsonObj = null;
+    public WeatherApiJSON fetchForecast(String location, int dayIndex) throws IOException, JSONException {
+        WeatherApiJSON jsonObj = null;
         try {
             jsonObj = fetch(location, dayIndex);
-            if (!jsonObj.get("message").toString().equals("0"))
+            if (!jsonObj.isGoodCode())
                 throw new JSONException("Ой, что-то пошло не так " + jsonObj.get("message"));
         } catch (JSONException e) {
             e.printStackTrace();
             return null;
         }
-
-        // Getting the list node
-        JSONArray list;
-        try {
-            list = jsonObj.getJSONArray("list");
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
-        }
-
-        // Getting the required element from list by dayIndex
-        return list.getJSONObject(dayIndex - 1);
+        return jsonObj;
     }
 
-    public JSONObject fetchForecast(float lat, float lon, int dayIndex) throws ClientProtocolException, IOException, JSONException {
-        JSONObject jsonObj = null;
+    public WeatherApiJSON fetchForecast(float lat, float lon, int dayIndex) throws IOException, JSONException {
+        WeatherApiJSON jsonObj = null;
         try {
             jsonObj = fetch(lat, lon, dayIndex);
-            if (!jsonObj.get("message").toString().equals("0"))
+            if (!jsonObj.isGoodCode())
                 throw new JSONException("Ой, что-то пошло не так " + jsonObj.get("message"));
         } catch (JSONException e) {
             e.printStackTrace();
             return null;
         }
-
-        // Getting the list node
-        JSONArray list;
-        try {
-            list = jsonObj.getJSONArray("list");
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
-        }
-
-        // Getting the required element from list by dayIndex
-        return list.getJSONObject(dayIndex - 1);
+        return jsonObj;
     }
 
-    private JSONObject fetch(String location, int nbDay) throws IOException, JSONException {
+    private WeatherApiJSON fetch(String location, int nbDay) throws IOException, JSONException {
         String apiUrl = apiForecast + "q=" + URLEncoder.encode(location, "utf-8") + "&appid=" + apiKey + "&mode=json&units=" + units + "&lang=" + lang + "&cnt=" + nbDay;
         return getResponse(apiUrl);
     }
 
-    private JSONObject fetch(float lat, float lon, int nbDay) throws IOException, JSONException {
+    private WeatherApiJSON fetch(float lat, float lon, int nbDay) throws IOException, JSONException {
         String apiUrl = apiForecast + "lat=" + Float.toString(lat) + "&lon=" + Float.toString(lon)+ "&appid=" + apiKey + "&mode=json&units=" + units + "&lang=" + lang + "&cnt=" + nbDay;
         System.out.println(apiUrl);
         return getResponse(apiUrl);
     }
 
-    private JSONObject getResponse(String url) throws IOException {
+    private WeatherApiJSON getResponse(String url) throws IOException {
         URL urlObject = new URL(url);
 
         HttpURLConnection connection = (HttpURLConnection) urlObject.openConnection();
@@ -131,7 +108,7 @@ public class Weather extends Command {
         }
         in.close();
 
-        return new JSONObject(response.toString());
+        return new WeatherApiJSON(response.toString());
     }
 
 }
