@@ -9,13 +9,13 @@ import java.io.IOException;
 public class Unsubscribe extends Command {
 
     @Override
-    public String execute(Message message, UserRepository manager) throws IOException {
-        User user = manager.getUser(message.userId);
+    public String execute(Message message, UserRepository userRepository) throws IOException {
+        User user = userRepository.getUser(message.userId);
         if (user != null && !user.isSubscribed) {
             return user.name + ", Вы eщё не подписаны!";
         } else {
             user.isSubscribed = false;
-            manager.updateUser(user);
+            userRepository.updateUser(user);
             return user.name + ", Вы отписаны";
         }
     }

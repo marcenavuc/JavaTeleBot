@@ -9,12 +9,12 @@ import java.io.IOException;
 public class SetLocation extends Command{
 
     @Override
-    public String execute(Message message, UserRepository manager) throws IOException {
-        User user = manager.getUser(message.userId);
+    public String execute(Message message, UserRepository userRepository) throws IOException {
+        User user = userRepository.getUser(message.userId);
         if (user.state == 0) {
             user.state = 1;
-            manager.updateUser(user);
-            return "Напишите Ваш город на английском или прикрепите геолокацию";
+            userRepository.updateUser(user);
+            return "Напишите ваш город на английском или прикрепите геолокацию";
         }
 
         if (message.location == null)
@@ -24,7 +24,7 @@ public class SetLocation extends Command{
             user.lon = message.location.getLongitude();
         }
         user.state = 0;
-        manager.updateUser(user);
+        userRepository.updateUser(user);
         return user.name + ", Мы обновили Вашу локацию";
     }
 }

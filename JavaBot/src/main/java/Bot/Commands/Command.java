@@ -9,7 +9,7 @@ public abstract class Command implements ICommand {
     public String name;
 
     @Override
-    public String execute(Message message, UserRepository manager) throws IOException {
+    public String execute(Message message, UserRepository userRepository) throws IOException {
         return null;
     }
 
