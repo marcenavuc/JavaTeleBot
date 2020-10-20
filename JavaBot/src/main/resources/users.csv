@@ -1,7 +1,7 @@
 Id,Name,Location,Subscribed,State,Lat,Lon
 0,mark,Yekaterinburg,false,0,0.0,0.0
 33598070,xoposhiy,Ekaterinburg,false,0,0.0,0.0
-635411685,Oki4_Doki,Orenburg,false,0,0.0,0.0
+635411685,Oki4_Doki,Orenburg,false,0,3.4028235E38,3.4028235E38
 1306044547,null,null,false,0,0.0,0.0
 351730666,marcenavuc,Yekaterinburg,true,0,56.84137,60.615845
-3344077,mark,Yecat,false,1,0.0,0.0
+3344077,mark,/start,false,0,0.0,0.0

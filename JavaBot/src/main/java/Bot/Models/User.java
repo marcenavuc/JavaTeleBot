@@ -17,8 +17,8 @@ public class User implements Serializable {
         this.location = location;
         this.isSubscribed = isSubscribed;
         this.state = States.DEFAULT;
-        this.lat = 0;
-        this.lon = 0;
+        this.lat = Float.MAX_VALUE;
+        this.lon = Float.MAX_VALUE;
     }
 
     public User(String[] dataFromCsv) {
@@ -40,6 +40,15 @@ public class User implements Serializable {
                 + "," + Integer.toString(state.ordinal())
                 + "," + Float.toString(lat)
                 + "," + Float.toString(lon);
+    }
+
+    public boolean isLatLonChanged() {
+        return lat != Float.MAX_VALUE && lon != Float.MAX_VALUE;
+    }
+
+    public void setLatLonToDefault() {
+        lat = Float.MAX_VALUE;
+        lon = Float.MAX_VALUE;
     }
 }
 

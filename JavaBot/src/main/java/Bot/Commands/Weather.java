@@ -30,10 +30,10 @@ public class Weather extends Command {
     public String execute(Message message, UserRepository userRepository) throws IOException {
         User user = userRepository.getUser(message.userId);
         int today = 1;
-        if (user.location != null || user.lat != 0.0f && user.lon != 0.0f) {
-                WeatherApiJSON json = user.lat == 0.0f && user.lon == 0.0f
-                        ? fetch(user.location, today)
-                        : fetch(user.lat, user.lon, today);
+        if (user.location != null || user.isLatLonChanged()) {
+                WeatherApiJSON json = user.isLatLonChanged()
+                        ? fetch(user.lat, user.lon, today)
+                        : fetch(user.location, today);
 
                 if (json == null) {
                     user.state = States.CHANGELOCATION;
@@ -41,9 +41,8 @@ public class Weather extends Command {
                     return "Вы вводили неправильный город\nНапиши свою локацию";
                 }
 
-                user.location = user.lat != 0.0f && user.lon != 0.0f ? json.city : user.location;
-                user.lat = 0.0f;
-                user.lon = 0.0f;
+                user.location = user.isLatLonChanged() ? json.city : user.location;
+                user.setLatLonToDefault();
                 return "Погода в " + user.location + " : " + json.temperature + "\u00B0C";
         }
         else {

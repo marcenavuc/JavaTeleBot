@@ -26,6 +26,6 @@ public class SetLocation extends Command{
         }
         user.state = States.DEFAULT;
         userRepository.updateUser(user);
-        return user.name + ", Мы обновили Вашу локацию";
+        return user.name + ", мы обновили вашу локацию";
     }
 }
