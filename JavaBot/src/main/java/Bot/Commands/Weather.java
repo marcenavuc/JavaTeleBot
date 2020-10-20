@@ -1,5 +1,6 @@
 package Bot.Commands;
 
+import Bot.Models.States;
 import Bot.Models.User;
 import Bot.Models.WeatherApiJSON;
 import Bot.UserRepository;
@@ -19,7 +20,11 @@ public class Weather extends Command {
     private String apiForecast = "http://api.openweathermap.org/data/2.5/forecast?";
     private String units = "metric";
     private String lang = "en";
-    private String apiKey = "99e220dcfc77677fd0106e55fbb088fe";
+    private String apiKey;
+
+    public Weather(String apiKey) {
+        this.apiKey = apiKey;
+    }
 
     @Override
     public String execute(Message message, UserRepository userRepository) throws IOException {
@@ -31,7 +36,7 @@ public class Weather extends Command {
                         : fetch(user.lat, user.lon, today);
 
                 if (json == null) {
-                    user.state = 1;
+                    user.state = States.CHANGELOCATION;
                     userRepository.updateUser(user);
                     return "Вы вводили неправильный город\nНапиши свою локацию";
                 }
@@ -42,7 +47,7 @@ public class Weather extends Command {
                 return "Погода в " + user.location + " : " + json.temperature + "\u00B0C";
         }
         else {
-            user.state = 1;
+            user.state = States.CHANGELOCATION;
             userRepository.updateUser(user);
             return "Мы не знаем где вы живете\nНапиши свою локацию";
         }
@@ -68,7 +73,6 @@ public class Weather extends Command {
 
         if (connection.getResponseCode() == 404)
             return null;
-            //throw new IllegalArgumentException();
 
         BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         String inputLine;

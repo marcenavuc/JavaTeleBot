@@ -8,12 +8,13 @@ import org.telegram.telegrambots.exceptions.TelegramApiException;
 
 public class TelegramProvider extends TelegramLongPollingBot {
     private static final String BotName = "QQuestionBot";
-    private static final String Token = "1292220516:AAEwoFfrkYfm9sI2TY0HeTYCfV40NHwSALg";
+    private static String Token;
     private final Bot bot;
 
-    public TelegramProvider(Bot newBot) {
+    public TelegramProvider(Bot newBot, String telegramToken) {
         super();
         bot = newBot;
+        Token = telegramToken;
     }
 
     @Override

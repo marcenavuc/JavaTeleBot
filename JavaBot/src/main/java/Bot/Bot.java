@@ -1,30 +1,33 @@
 package Bot;
 
 import Bot.Commands.*;
+import Bot.Models.States;
 import Bot.Models.User;
 import CLI.Message;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Bot {
     private final HashMap<String, Command> commands = new HashMap<String, Command>();
-    private final ArrayList<Command> stateCommands = new ArrayList<Command>();
+    private final HashMap<States, Command> stateCommands = new HashMap<States, Command>();
     private final String ifNotFound = "Я ничего не понял(((";
     private final String ErrorMessage = "AAAAA, я сломался!!!! ЧТо ты наделал?";
+    private String weatherKey;
     public UserRepository userRepository = new UserRepository();
 
 
-    public Bot() {
+    public Bot(String weatherKey) {
+        this.weatherKey = weatherKey;
+
         commands.put("/start", new Start());
         commands.put("/help", new Help());
-        commands.put("/weather", new Weather());
+        commands.put("/weather", new Weather(this.weatherKey));
         commands.put("/subscribe", new Subscribe());
         commands.put("/unsubscribe", new Unsubscribe());
         commands.put("/change", new SetLocation());
 
-        stateCommands.add(0, new Help());
-        stateCommands.add(1, new SetLocation());
+        stateCommands.put(States.DEFAULT, new Help());
+        stateCommands.put(States.CHANGELOCATION, new SetLocation());
     }
 
     public String takeAnswer(Message message) {
@@ -41,7 +44,7 @@ public class Bot {
             }
         }
 
-        Command command = user.state == 0
+        Command command = user.state == States.DEFAULT
                 ? commands.get(message.text)
                 : stateCommands.get(user.state);
 

@@ -1,5 +1,6 @@
 package Bot.Commands;
 
+import Bot.Models.States;
 import Bot.Models.User;
 import Bot.UserRepository;
 import CLI.Message;
@@ -11,8 +12,8 @@ public class SetLocation extends Command{
     @Override
     public String execute(Message message, UserRepository userRepository) throws IOException {
         User user = userRepository.getUser(message.userId);
-        if (user.state == 0) {
-            user.state = 1;
+        if (user.state == States.DEFAULT) {
+            user.state = States.CHANGELOCATION;
             userRepository.updateUser(user);
             return "Напишите ваш город на английском или прикрепите геолокацию";
         }
@@ -23,7 +24,7 @@ public class SetLocation extends Command{
             user.lat = message.location.getLatitude();
             user.lon = message.location.getLongitude();
         }
-        user.state = 0;
+        user.state = States.DEFAULT;
         userRepository.updateUser(user);
         return user.name + ", Мы обновили Вашу локацию";
     }

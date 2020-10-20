@@ -6,12 +6,16 @@ import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
+import java.util.Map;
+
 public class Main {
 
     public static void main(String[] args) {
 
+        Map<String, String> envs = System.getenv();
+
         //Initialize bot
-        Bot bot = new Bot();
+        Bot bot = new Bot(envs.get("WEATHERTOKEN"));
 
         // Initialize Telegram Provider
         // Initialize Api Context
@@ -22,7 +26,7 @@ public class Main {
 
         // Register our bot on Telegram
         try {
-            botsApi.registerBot(new TelegramProvider(bot));
+            botsApi.registerBot(new TelegramProvider(bot, envs.get("TELEGRAMTOKEN")));
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }

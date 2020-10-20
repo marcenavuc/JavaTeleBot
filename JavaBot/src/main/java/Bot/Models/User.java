@@ -7,7 +7,7 @@ public class User implements Serializable {
     public String location;
     public Boolean isSubscribed;
     public int userId;
-    public int state;
+    public States state;
     public float lat;
     public float lon;
 
@@ -16,7 +16,7 @@ public class User implements Serializable {
         this.name = name;
         this.location = location;
         this.isSubscribed = isSubscribed;
-        this.state = 0;
+        this.state = States.DEFAULT;
         this.lat = 0;
         this.lon = 0;
     }
@@ -26,7 +26,7 @@ public class User implements Serializable {
         this.name = dataFromCsv[1];
         this.location = !dataFromCsv[2].equals("null") ? dataFromCsv[2] : null;
         this.isSubscribed = Boolean.parseBoolean(dataFromCsv[3]);
-        this.state = Integer.parseInt(dataFromCsv[4]);
+        this.state = States.values()[Integer.parseInt(dataFromCsv[4])];
         this.lat = Float.parseFloat(dataFromCsv[5]);
         this.lon = Float.parseFloat(dataFromCsv[6]);
     }
@@ -37,8 +37,9 @@ public class User implements Serializable {
                 + "," + name
                 + "," + location
                 + "," + Boolean.toString(isSubscribed)
-                + "," + Integer.toString(state)
+                + "," + Integer.toString(state.ordinal())
                 + "," + Float.toString(lat)
                 + "," + Float.toString(lon);
     }
 }
+
