@@ -7,7 +7,7 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
 public class TelegramProvider extends TelegramLongPollingBot {
-    private static final String BotName = "QQuestionBot";
+    private static final String BotName = "WeatherBot";
     private static String Token;
     private final Bot bot;
 

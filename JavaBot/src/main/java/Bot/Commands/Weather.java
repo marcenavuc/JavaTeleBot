@@ -14,12 +14,13 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.Formatter;
 
 public class Weather extends Command {
 
     private String apiForecast = "http://api.openweathermap.org/data/2.5/forecast?";
     private String units = "metric";
-    private String lang = "en";
+    private String lang = "ru";
     private String apiKey;
 
     public Weather(String apiKey) {
@@ -43,7 +44,10 @@ public class Weather extends Command {
 
                 user.location = user.isLatLonChanged() ? json.city : user.location;
                 user.setLatLonToDefault();
-                return "Погода в " + user.location + " : " + json.temperature + "\u00B0C";
+                return String.format("В %s %s \nТемпература: %s\u00B0C\u1f31c \nСкорость ветра: %sмс\nДавление: %sмб\nОщущается как: %s\u00B0C\n",
+                        user.location, json.weatherDescription,
+                        json.temperature, json.windSpeed,
+                        json.pressure, json.feelsLike);
         }
         else {
             user.state = States.CHANGELOCATION;
@@ -54,6 +58,7 @@ public class Weather extends Command {
 
     private WeatherApiJSON fetch(String location, int nbDay) throws IOException, JSONException {
         String apiUrl = apiForecast + "q=" + URLEncoder.encode(location, "utf-8") + "&appid=" + apiKey + "&mode=json&units=" + units + "&lang=" + lang + "&cnt=" + nbDay;
+        System.out.println(apiUrl);
         return getResponse(apiUrl);
     }
 

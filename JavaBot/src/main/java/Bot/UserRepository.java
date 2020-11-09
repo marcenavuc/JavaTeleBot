@@ -23,7 +23,7 @@ public class UserRepository {
         }
     }
 
-    private HashMap<Integer, User> getUsers() throws IOException {
+    public HashMap<Integer, User> getUsers() throws IOException {
         HashMap<Integer, User> users = new HashMap<Integer, User>();
         BufferedReader csvReader = new BufferedReader(new FileReader(pathToDB));
         String row = csvReader.readLine();
