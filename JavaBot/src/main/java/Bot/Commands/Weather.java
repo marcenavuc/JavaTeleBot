@@ -14,7 +14,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.Formatter;
 
 public class Weather extends Command {
 
@@ -44,10 +43,10 @@ public class Weather extends Command {
 
                 user.location = user.isLatLonChanged() ? json.city : user.location;
                 user.setLatLonToDefault();
-                return String.format("В %s %s \nТемпература: %s\u00B0C\u1f31c \nСкорость ветра: %sмс\nДавление: %sмб\nОщущается как: %s\u00B0C\n",
+                return String.format("В %s %s \n\uD83C\uDF21Температура: %s\u00B0C \n\uD83D\uDCA8Скорость ветра: %s м/с\nДавление: %s мбар\nОщущается как: %s\u00B0C\n",
                         user.location, json.weatherDescription,
-                        json.temperature, json.windSpeed,
-                        json.pressure, json.feelsLike);
+                        Math.round(json.temperature), json.windSpeed,
+                        json.pressure, Math.round(json.feelsLike));
         }
         else {
             user.state = States.CHANGELOCATION;
