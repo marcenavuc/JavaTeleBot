@@ -18,11 +18,11 @@ public class WeatherApiJSON extends JSONObject {
         statusCode = jsonObject.get("message").toString();
         if (isGoodCode()) {
             lastDay = jsonObject.getJSONArray("list").getJSONObject(0);
-            temperature = (Double) lastDay.getJSONObject("main").get("temp");
+            temperature = Double.parseDouble(lastDay.getJSONObject("main").get("temp").toString());
             city = jsonObject.getJSONObject("city").get("name").toString();
-            feelsLike = (Double) lastDay.getJSONObject("main").get("feels_like");
-            pressure = (Integer) lastDay.getJSONObject("main").get("pressure");
-            windSpeed = (Double) lastDay.getJSONObject("wind").get("speed");
+            feelsLike = Double.parseDouble(lastDay.getJSONObject("main").get("feels_like").toString());
+            pressure = Integer.parseInt(lastDay.getJSONObject("main").get("pressure").toString());
+            windSpeed = Double.parseDouble(lastDay.getJSONObject("wind").get("speed").toString());
             String iconName = lastDay.getJSONArray("weather")
                     .getJSONObject(0)
                     .get("icon").toString();
