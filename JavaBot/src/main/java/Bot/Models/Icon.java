@@ -2,8 +2,8 @@ package Bot.Models;
 import java.util.HashMap;
 
 public class Icon {
-    HashMap<String, String> icons = new HashMap<String, String>();
-    Icon() {
+    public HashMap<String, String> icons = new HashMap<String, String>();
+    public Icon() {
         icons.put("01d", "\u2600\uFE0F" + " Отличное время, чтобы погулять!");
         icons.put("01n", "\uD83C\uDF11");
         icons.put("02d", "\u26C5\uFE0F");

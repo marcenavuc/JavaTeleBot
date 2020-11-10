@@ -15,7 +15,7 @@ public class SetLocation extends Command{
         if (user.state == States.DEFAULT) {
             user.state = States.CHANGELOCATION;
             userRepository.updateUser(user);
-            return "Напишите ваш город на английском или прикрепите геолокацию";
+            return "Напишите ваш город или прикрепите геолокацию";
         }
 
         if (message.location == null)
@@ -24,8 +24,15 @@ public class SetLocation extends Command{
             user.lat = message.location.getLatitude();
             user.lon = message.location.getLongitude();
         }
+
+        String result = user.state == States.CHANGELOCATION ? user.name + ", мы обновили вашу локацию" + "\n" : "";
+        result += new Weather().execute(message, userRepository);
+//        user.state = user.state == States.CHANGELOCATION ? States.DEFAULT : user.state;
+
+        if (user.state == States.CHANGELOCATION)
+            userRepository.updateUser(user);
+
         user.state = States.DEFAULT;
-        userRepository.updateUser(user);
-        return user.name + ", мы обновили вашу локацию";
+        return result;
     }
 }

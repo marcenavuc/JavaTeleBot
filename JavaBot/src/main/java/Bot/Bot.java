@@ -49,7 +49,12 @@ public class Bot {
                 : stateCommands.get(user.state);
 
         try {
-            return command != null ? command.execute(message, userRepository) : ifNotFound;
+            // Если ввели комманду
+            if (command != null)
+                return command.execute(message, userRepository);
+
+            user.state = States.FASTFORECAST;
+            return commands.get("/change").execute(message, userRepository);
         } catch (Exception e) {
             e.printStackTrace();
             return ErrorMessage;

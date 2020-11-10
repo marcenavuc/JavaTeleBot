@@ -1,5 +1,6 @@
-package Bot.Models;
+package WeatherAPI;
 
+import Bot.Models.Icon;
 import org.json.JSONObject;
 
 public class WeatherApiJSON extends JSONObject {
