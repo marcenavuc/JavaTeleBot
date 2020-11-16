@@ -3,16 +3,18 @@ package Bot.Models;
 import java.io.Serializable;
 
 public class User implements Serializable {
+    public int userId;
+    public long chatId;
     public String name;
     public String location;
     public Boolean isSubscribed;
-    public int userId;
     public States state;
     public float lat;
     public float lon;
 
-    public User(int userId, String name, String location, Boolean isSubscribed) {
+    public User(int userId, long chatId, String name, String location, Boolean isSubscribed) {
         this.userId = userId;
+        this.chatId = chatId;
         this.name = name;
         this.location = location;
         this.isSubscribed = isSubscribed;
@@ -23,23 +25,25 @@ public class User implements Serializable {
 
     public User(String[] dataFromCsv) {
         this.userId = Integer.parseInt(dataFromCsv[0]);
-        this.name = dataFromCsv[1];
-        this.location = !dataFromCsv[2].equals("null") ? dataFromCsv[2] : null;
-        this.isSubscribed = Boolean.parseBoolean(dataFromCsv[3]);
-        this.state = States.values()[Integer.parseInt(dataFromCsv[4])];
-        this.lat = Float.parseFloat(dataFromCsv[5]);
-        this.lon = Float.parseFloat(dataFromCsv[6]);
+        this.chatId = Long.parseLong(dataFromCsv[1]);
+        this.name = dataFromCsv[2];
+        this.location = !dataFromCsv[3].equals("null") ? dataFromCsv[3] : null;
+        this.isSubscribed = Boolean.parseBoolean(dataFromCsv[4]);
+        this.state = States.values()[Integer.parseInt(dataFromCsv[5])];
+        this.lat = Float.parseFloat(dataFromCsv[6]);
+        this.lon = Float.parseFloat(dataFromCsv[7]);
     }
 
     @Override
     public String toString() {
-        return Integer.toString(userId)
+        return userId
+                + "," + chatId
                 + "," + name
                 + "," + location
-                + "," + Boolean.toString(isSubscribed)
-                + "," + Integer.toString(state.ordinal())
-                + "," + Float.toString(lat)
-                + "," + Float.toString(lon);
+                + "," + isSubscribed
+                + "," + state.ordinal()
+                + "," + lat
+                + "," + lon;
     }
 
     public boolean isLatLonChanged() {

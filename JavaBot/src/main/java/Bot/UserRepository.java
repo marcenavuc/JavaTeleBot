@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 public class UserRepository {
     private final String pathToDB = "JavaBot/src/main/resources/users.csv";
-    private final String header = "Id,Name,Location,Subscribed,State,Lat,Lon";
+    private final String header = "Id,ChatId,Name,Location,Subscribed,State,Lat,Lon";
     private HashMap<Integer, User> users;
 
     public UserRepository() {

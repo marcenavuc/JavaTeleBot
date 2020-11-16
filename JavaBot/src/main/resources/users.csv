@@ -1,9 +1,4 @@
-Id,Name,Location,Subscribed,State,Lat,Lon
-0,mark,Yekaterinburg,false,0,0.0,0.0
-33598070,xoposhiy,Сидней,true,0,3.4028235E38,3.4028235E38
-354260852,pavelslabikov,/help,false,0,3.4028235E38,3.4028235E38
-635411685,Oki4_Doki,Оренбург,false,1,3.4028235E38,3.4028235E38
-1306044547,null,null,false,0,0.0,0.0
-351730666,marcenavuc,/change,true,0,3.4028235E38,3.4028235E38
-110093,oki,Orenburg,false,0,3.4028235E38,3.4028235E38
-3344077,mark,Бостон,false,0,3.4028235E38,3.4028235E38
+Id,ChatId,Name,Location,Subscribed,State,Lat,Lon
+635411685,635411685,Oki4_Doki,Бостон,true,0,3.4028235E38,3.4028235E38
+351730666,351730666,marcenavuc,Екатеринбург,true,0,3.4028235E38,3.4028235E38
+3344077,0,mark,null,false,0,3.4028235E38,3.4028235E38

@@ -21,17 +21,19 @@ public class TelegramProvider extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
 
         if (update.hasMessage()) {
-            long chat_id = update.getMessage().getChatId();
-
+            long chatId = update.getMessage().getChatId();
             String answer = getAnswer(update);
+            SendMessageToTelegram(chatId, answer);
+        }
+    }
 
-            SendMessage message = new SendMessage().setChatId(chat_id).setText(answer);
-            try {
-                System.out.println(message); // Заменить на логирование
-                execute(message); // Sending our message object to user
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
-            }
+    public void SendMessageToTelegram(long chatId, String text) {
+        SendMessage message = new SendMessage().setChatId(chatId).setText(text);
+        try {
+            System.out.println(message); // Заменить на логирование
+            execute(message); // Sending our message object to user
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
         }
     }
 

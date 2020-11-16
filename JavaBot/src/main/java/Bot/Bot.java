@@ -12,16 +12,13 @@ public class Bot {
     private final HashMap<States, Command> stateCommands = new HashMap<States, Command>();
     private final String ifNotFound = "Я ничего не понял(((";
     private final String ErrorMessage = "AAAAA, я сломался!!!! ЧТо ты наделал?";
-    private String weatherKey;
     public UserRepository userRepository = new UserRepository();
 
 
-    public Bot(String weatherKey) {
-        this.weatherKey = weatherKey;
-
+    public Bot() {
         commands.put("/start", new Start());
         commands.put("/help", new Help());
-        commands.put("/weather", new Weather(this.weatherKey));
+        commands.put("/weather", new Weather());
         commands.put("/subscribe", new Subscribe());
         commands.put("/unsubscribe", new Unsubscribe());
         commands.put("/change", new SetLocation());
@@ -35,7 +32,7 @@ public class Bot {
 
         // Если к нам поступило сообщение от нового опльзователя
         if (user == null) {
-            user = new User(message.userId, message.user, null, false);
+            user = new User(message.userId, message.chatId, message.user, null, false);
             try {
                 userRepository.addUser(user);
             } catch (Exception e) {

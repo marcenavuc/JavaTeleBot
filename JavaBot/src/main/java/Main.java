@@ -1,41 +1,34 @@
 import Bot.Bot;
 import CLI.CLIApi;
 import CLI.CLIProvider;
+import Schedule.Schedule;
 import Telegram.TelegramProvider;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
-import org.telegram.telegrambots.exceptions.TelegramApiException;
-
 import java.util.Map;
+import java.util.Timer;
 
 public class Main {
 
-    public static void main(String[] args) {
-
-        Map<String, String> envs = System.getenv();
-
-        //Initialize bot
-        Bot bot = new Bot(envs.get("WEATHERTOKEN"));
-
-        // Initialize Telegram Provider
-        // Initialize Api Context
+    public static void main(String[] args) throws InterruptedException {
         ApiContextInitializer.init();
 
-        // Instantiate Telegram Bots API
+        Map<String, String> envs = System.getenv();
+        Bot bot = new Bot();
+
+        TelegramProvider telegramProvider = new TelegramProvider(bot, envs.get("TELEGRAMTOKEN"));
         TelegramBotsApi botsApi = new TelegramBotsApi();
 
-        // Register our bot on Telegram
-        try {
-            botsApi.registerBot(new TelegramProvider(bot, envs.get("TELEGRAMTOKEN")));
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
+        Timer timer = new Timer();
+        timer.schedule(new Schedule(bot, telegramProvider), 0, 1000 * 3600);  // every hour
 
-        // Making CLI provider
-        CLIApi cliApi = new CLIApi();
-
-        CLIProvider cli = new CLIProvider(bot);
         try {
+            // Register our bot on Telegram
+            botsApi.registerBot(telegramProvider);
+
+            // Making CLI provider
+            CLIApi cliApi = new CLIApi();
+            CLIProvider cli = new CLIProvider(bot);
             cliApi.registerBot(cli);
         } catch (Exception e) {
             e.printStackTrace();
