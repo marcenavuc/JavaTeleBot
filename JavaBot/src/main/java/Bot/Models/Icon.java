@@ -10,8 +10,8 @@ public class Icon {
         icons.put("02n", "\u26C5\uFE0F");
         icons.put("03d", "\u26C5\uFE0F");
         icons.put("03n", "\u26C5\uFE0F");
-        icons.put("04d", "\uD83C\uDF25");
-        icons.put("04n", "\uD83C\uDF25");
+        icons.put("04d", "\u2601\uFE0F");
+        icons.put("04n", "\u2601\uFE0F");
         icons.put("09d", "\uD83D\uDCA6" + " Не забудьте взять зонт!\uD83C\uDF02");
         icons.put("09n", "\uD83D\uDCA6"+ " Если решите выйти на улицу, положите зонт!\uD83C\uDF02");
         icons.put("10d", "\uD83C\uDF27"+ " Возьмите зонт!\u2602");
