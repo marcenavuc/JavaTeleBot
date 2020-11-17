@@ -28,7 +28,7 @@ public class Weather extends Command {
 
                 user.location = user.isLatLonChanged() ? json.city : user.location;
                 user.setLatLonToDefault();
-                return String.format("В %s %s \n\uD83C\uDF21Температура: %s\u00B0C \n\uD83D\uDCA8Скорость ветра: %s м/с\nДавление: %s мбар\nОщущается как: %s\u00B0C\n",
+                return String.format("В городе %s %s \n\uD83C\uDF21Температура: %s\u00B0C \n\uD83D\uDCA8Скорость ветра: %s м/с\nДавление: %s мбар\nОщущается как: %s\u00B0C\n",
                         user.location, json.weatherDescription,
                         Math.round(json.temperature), json.windSpeed,
                         json.pressure, Math.round(json.feelsLike));

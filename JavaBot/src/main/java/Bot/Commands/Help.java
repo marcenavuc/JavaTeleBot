@@ -7,7 +7,7 @@ public class Help extends Command {
 
     @Override
     public String execute(Message message, UserRepository userRepository) {
-        String answer = "Я бот JavaWeatherBot. Умею давать прогноз погоды \uD83C\uDF24 в запрашиваемом регионе;\n";
+        String answer = "Я умею давать прогноз погоды \uD83C\uDF24 в запрашиваемом регионе;\n";
         answer += "Для того, чтобы узнать прогноз погоды, напишите название интересующего Вас города на английском языке\n";
         answer += "или же отправьте Вашу геолокацию;\n";
         answer += "А также ты можешь подписаться на обновления;\n";
